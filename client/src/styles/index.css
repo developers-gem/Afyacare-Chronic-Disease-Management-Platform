@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  color: #1c2333;
+}
+
+.card {
+  @apply bg-white rounded-xl2 shadow-card border border-sand-200 p-6;
+}
+
+.btn-primary {
+  @apply bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-5 py-2.5 rounded-full transition-colors;
+}
+
+.btn-accent {
+  @apply bg-terracotta-500 hover:bg-terracotta-600 text-white font-semibold px-5 py-2.5 rounded-full transition-colors;
+}
+
+.btn-outline {
+  @apply border border-indigo-200 text-indigo-600 hover:bg-indigo-50 font-semibold px-5 py-2.5 rounded-full transition-colors;
+}
+
+.input {
+  @apply w-full border border-sand-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 bg-white;
+}
+
+.pill {
+  @apply inline-flex items-center gap-1 text-xs font-medium px-2.5 py-1 rounded-full;
+}
+
+.pill-status-in_range { @apply bg-sage-500/10 text-sage-600; }
+.pill-status-watch { @apply bg-gold-400/20 text-gold-600; }
+.pill-status-high { @apply bg-terracotta-100 text-terracotta-700; }
+.pill-status-critical { @apply bg-terracotta-500 text-white; }
+.pill-status-low { @apply bg-indigo-100 text-indigo-600; }
