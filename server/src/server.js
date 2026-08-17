@@ -30,6 +30,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:5173", // Local development
   process.env.CLIENT_URL, // Production frontend
+  process.env.NETLIFY_CLIENT_URL, // Netlify frontend
 ];
 
 app.use(helmet());
