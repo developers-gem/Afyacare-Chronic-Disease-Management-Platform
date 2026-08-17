@@ -27,8 +27,26 @@ import dietRoutes from "./routes/diet.routes.js";
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  process.env.CLIENT_URL, // Production frontend
+];
+
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_URL || "*", credentials: true }));
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg = "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: "2mb" }));
 app.use(morgan("dev"));
 app.use(rateLimit({ windowMs: 60 * 1000, max: 300 })); // basic API rate limiting
