@@ -1,6 +1,10 @@
 import axios from "axios";
 
-const api = axios.create({ baseURL: "/api" });
+import axios from "axios";
+
+const API_URL = import.meta.env.VITE_API_URL || "/api";
+
+const api = axios.create({ baseURL: API_URL });
 
 function getTokens() {
   return {
@@ -50,7 +54,7 @@ api.interceptors.response.use(
       originalRequest._retry = true;
       isRefreshing = true;
       try {
-        const { data } = await axios.post("/api/auth/refresh", { refreshToken });
+        const { data } = await axios.post(`${API_URL}/auth/refresh`, { refreshToken });
         setTokens({ accessToken: data.accessToken });
         queue.forEach((p) => p.resolve(data.accessToken));
         queue = [];
