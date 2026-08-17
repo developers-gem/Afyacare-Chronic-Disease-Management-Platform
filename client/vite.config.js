@@ -9,7 +9,7 @@ export default defineConfig({
     proxy: {
       "/api": {
         // target: "http://localhost:5000",
-        target: "https://afyacare-chronic-disease-management.onrender.com",
+        target: "https://afyacare-chronic-disease-management.onrender.com/api",
         changeOrigin: true,
       },
     },
