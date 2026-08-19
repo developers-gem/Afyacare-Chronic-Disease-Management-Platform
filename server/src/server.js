@@ -116,9 +116,10 @@ import dietRoutes from "./routes/diet.routes.js";
 const app = express();
 
 const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.CLIENT_URL,
-  process.env.NETLIFY_CLIENT_URL,
+  // "http://localhost:5173",
+  // process.env.CLIENT_URL,
+  // process.env.NETLIFY_CLIENT_URL,
+  "*"
 ].filter(Boolean);
 
 app.use(helmet());
