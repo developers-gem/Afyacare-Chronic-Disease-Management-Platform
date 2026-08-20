@@ -26,7 +26,7 @@ npm run dev                 # starts on :5173, proxies /api -> :5000
 Seeded logins (from `npm run seed`):
 - Patient: `chinwe@example.com` / `Password123!`
 - Admin: `admin@afyacare.com` / `AdminPass123!`
-- Doctors: `dr.*@afyacare.com` / `Password123!` (role is `doctor`, but no
+- Doctors: `johnDoe@doctor.com` / `john@123` (role is `doctor`, but no
   doctor-side UI is wired yet — see "Not built" below)
 
 ## What's implemented (P0, end-to-end: schema → API → connected UI)
