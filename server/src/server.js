@@ -115,51 +115,89 @@ import dietRoutes from "./routes/diet.routes.js";
 
 const app = express();
 
+/* =========================
+   CORS CONFIGURATION
+========================= */
+
 const allowedOrigins = [
   "http://localhost:5173",
+  "https://afyacare-chronic-disease-management.vercel.app",
+
+  // Optional environment variables
   process.env.CLIENT_URL,
   process.env.NETLIFY_CLIENT_URL,
 ].filter(Boolean);
 
+console.log("Allowed CORS origins:", allowedOrigins);
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    console.log("Incoming request origin:", origin);
+
+    // Allow Postman, server-to-server requests, etc.
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    console.log("CORS blocked:", origin);
+
+    return callback(
+      new Error(`CORS blocked for origin: ${origin}`)
+    );
+  },
+
+  credentials: true,
+
+  methods: [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+  ],
+
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+  ],
+};
+
+app.use(cors(corsOptions));
+
+/* =========================
+   SECURITY & MIDDLEWARE
+========================= */
+
 app.use(helmet());
-
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // Allow requests without an Origin header
-      if (!origin) {
-        return callback(null, true);
-      }
-
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true);
-      }
-
-      return callback(
-        new Error(
-          `CORS blocked for origin: ${origin}`
-        )
-      );
-    },
-
-    credentials: true,
-  })
-);
 
 app.use(express.json({ limit: "2mb" }));
 
 app.use(morgan("dev"));
+
+/* =========================
+   RATE LIMITING
+========================= */
 
 app.use(
   "/api",
   rateLimit({
     windowMs: 60 * 1000,
     max: 300,
+
     message: {
       message: "Too many requests. Please try again later.",
     },
   })
 );
+
+/* =========================
+   HEALTH CHECK
+========================= */
 
 app.get("/api/health", (req, res) => {
   res.json({
@@ -169,26 +207,51 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Routes
+/* =========================
+   API ROUTES
+========================= */
+
 app.use("/api/auth", authRoutes);
+
 app.use("/api/patients", patientRoutes);
+
 app.use("/api/vitals/bp", vitalsRoutes);
+
 app.use("/api/vitals/glucose", glucoseRoutes);
+
 app.use("/api/medications", medicationRoutes);
+
 app.use("/api/family", familyRoutes);
+
 app.use("/api/consent", consentRoutes);
+
 app.use("/api/doctors", doctorRoutes);
+
 app.use("/api/availability", availabilityRoutes);
+
 app.use("/api/appointments", appointmentRoutes);
+
 app.use("/api/consultations", consultationRoutes);
+
 app.use("/api/admin", adminRoutes);
+
 app.use("/api/audit-logs", auditRoutes);
+
 app.use("/api/notifications", notificationRoutes);
+
 app.use("/api/diet", dietRoutes);
 
-// Error handling
+/* =========================
+   ERROR HANDLING
+========================= */
+
 app.use(notFound);
+
 app.use(errorHandler);
+
+/* =========================
+   SERVER START
+========================= */
 
 const PORT = process.env.PORT || 5000;
 
@@ -196,7 +259,12 @@ connectDB()
   .then(() => {
     app.listen(PORT, () => {
       console.log(
-        `[server] Afyacare API listening on :${PORT}`
+        `[server] Afyacare API listening on port ${PORT}`
+      );
+
+      console.log(
+        "[server] Allowed origins:",
+        allowedOrigins
       );
     });
 

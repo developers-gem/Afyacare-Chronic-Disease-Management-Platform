@@ -19,8 +19,6 @@ export async function requireAuth(req, res, next) {
   }
 }
 
-
-
 // RBAC: usage requireRole("admin", "super_admin")
 export function requireRole(...roles) {
   return (req, res, next) => {
