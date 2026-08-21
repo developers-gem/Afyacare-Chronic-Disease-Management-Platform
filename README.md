@@ -74,7 +74,6 @@ Seeded logins (from `npm run seed`):
 - Verified end-to-end with a live smoke test (register → login → profile → log BP → alert fires → medication → adherence) before packaging.
 
 ## Doctor portal (new)
-
 Log in as a `doctor`-role user (seed script doesn't create one with a known
 password by default — register via `/auth/register` with `role: "doctor"`,
 or check the seeded `dr.*@afyacare.com` accounts, password `Password123!`,
