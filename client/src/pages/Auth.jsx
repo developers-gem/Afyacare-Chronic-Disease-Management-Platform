@@ -120,13 +120,13 @@ export default function Auth() {
 
                 <option value="doctor">Doctor</option>
 
-                <option value="dietitian">Dietitian</option>
+                {/* <option value="dietitian">Dietitian</option> */}
 
                 {/* <option value="admin">Admin</option> */}
 
                 {/* <option value="super_admin">Super Admin</option> */}
 
-                <option value="support_staff">Support Staff</option>
+                {/* <option value="support_staff">Support Staff</option> */}
               </select>
             </div>
           )}
